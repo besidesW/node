@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.redis.demo.dao.EmpMapper" >
+    <resultMap type="com.redis.demo.entity.Employee" id="EmpMap">
+
+        <id property="eid" column="eid"/>
+
+        <association property="dept" column="deptId" select="com.redis.demo.dao.DeptMapper.findDeptById" javaType="Dept"/>
+
+    </resultMap>
+
+    <select id="allEmps" resultMap="EmpMap">
+        select e.eid , e.ename , e.birth  , d.dname from employee e left join dept d on e.deptid = d.deptid
+    </select>
+
+</mapper>

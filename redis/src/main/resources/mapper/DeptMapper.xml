@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.redis.demo.dao.DeptMapper" >
+
+
+    <resultMap id="DeptMap" type="com.redis.demo.entity.Dept">
+        <id column="deptId" property="deptId" ></id>
+
+    </resultMap>
+
+    <select id="findDeptById" resultMap="DeptMap" parameterType="Integer">
+        select  * from dept where deptid = #{deptid}
+    </select>
+
+
+
+</mapper>
