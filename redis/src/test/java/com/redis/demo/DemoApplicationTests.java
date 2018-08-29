@@ -60,12 +60,12 @@ public class DemoApplicationTests {
 
     @Test
     public void testEmps(){
-
-        List<Employee> emps = empService.allEmps();
-
-        for (Employee emp: emps) {
-            System.out.println(emp.getEname());
-        }
+//
+//        List<Employee> emps = empService.allEmps();
+//
+//        for (Employee emp: emps) {
+//            System.out.println(emp.getEname());
+//        }
 
     }
 

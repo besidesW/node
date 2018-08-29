@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface EmpService {
 
-    public List<Employee> allEmps();
+    public String allEmps();
 
 }

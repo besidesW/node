@@ -49,7 +49,6 @@ import redis.clients.jedis.JedisPoolConfig;
         @Bean
         public static Jedis getJedis(){
             Jedis jedis = pool.getResource();
-          //  jedis.auth("redis123");
             return jedis;
         }
 

@@ -11,7 +11,7 @@
     </resultMap>
 
     <select id="allEmps" resultMap="EmpMap">
-        select e.eid , e.ename , e.birth  , d.dname from employee e left join dept d on e.deptid = d.deptid
+        select e.eid , e.ename , d.dname from employee e left join dept d on e.deptid = d.deptid
     </select>
 
 </mapper>

@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class EmpServiceImpl implements EmpService {
 
@@ -17,11 +20,24 @@ public class EmpServiceImpl implements EmpService {
     private EmpMapper empMapper;
 
     @Autowired
-    private JedisPoolUtils jedisPoolUtils;
+    private Jedis jedis;
 
     @Override
-    public List<Employee> allEmps() {
+    public String allEmps() {
 
-        return null;
+        boolean flag = jedis.exists("emps");
+        if(flag == true ){
+
+            System.out.println("service");
+            String emp = jedis.hget("emps" , "emps"+1);
+           // emp.split(",");
+
+           return emp;
+        }
+        List<Employee> emps = empMapper.allEmps();
+        JSONArray jsonList = JSONArray.fromObject(emps);
+        jedis.hset("emps" , "emps"+1 , jsonList.toString());
+
+        return jsonList.toString();
     }
 }
