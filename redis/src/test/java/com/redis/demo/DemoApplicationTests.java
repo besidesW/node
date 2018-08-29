@@ -9,10 +9,12 @@ import net.sf.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Jedis;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,36 +70,28 @@ public class DemoApplicationTests {
     }
 
 
-    @Test
-    public void testHash2(){
-        UserInfo userInfo = new UserInfo("18701744326" , "besides1" , "1234");
-        UserInfo userInfo2 = new UserInfo("18701744326" , "besides2" , "1234");
+    @Autowired
+    private Jedis jedis;
 
-        List<UserInfo> emps = new ArrayList<UserInfo>();
-
-        emps.add(userInfo);
-        emps.add(userInfo2);
-
-        JSONArray jsonList = JSONArray.fromObject(emps);
-
-        jedisPoolUtils.hset("emps1" , "emps1"+1 , jsonList.toString());
-
-    }
     @Test
     public void testString2(){
 
-        jedisPoolUtils.set("test12" , "急啊急啊");
-//        String str = jedisPoolUtils.get("test10");
-//
-//        String str2 = jedisPoolUtils.hget("emps1" , "emps11");
-//
-//        System.out.println(str);
-//        System.out.println(str2);
+
+        /**
+         * 如果使用windows 版本的redis
+         * 需要设置 cmd的编码
+         * 否则redis 无法显示中文
+         * chcp 65001 cmd设置utf-8 编码
+         * */
+            jedis.set("test" , "就阿卡");
+            String str = jedis.get("test");
+            System.out.println(str);
 
     }
 
 
-    @Test
+
+        @Test
     public void contextLoads() {
     }
 

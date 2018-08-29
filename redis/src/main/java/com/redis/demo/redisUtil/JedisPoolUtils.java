@@ -3,8 +3,10 @@ package com.redis.demo.redisUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -44,68 +46,12 @@ import redis.clients.jedis.JedisPoolConfig;
             pool = new JedisPool(poolConfig,prop.get("redis.host").toString(),Integer.parseInt(prop.get("redis.port").toString()));
         }
 
-        /**
-         * 对外提供静态方法
-         * @return
-         */
+        @Bean
         public static Jedis getJedis(){
             Jedis jedis = pool.getResource();
-            jedis.objectEncoding("utf-8");
           //  jedis.auth("redis123");
             return jedis;
         }
-        /**
-         * 得到Key
-         * @param key
-         * @return
-         */
-        public String buildKey(String key) {
-
-            return key;
-
-        }
-        public boolean exist(String key) {
-
-            String bKey = buildKey(key);
-
-            if(getJedis() == null || !getJedis().exists(bKey)) {
-
-                return false;
-            }
-            return true;
-        }
-
-        /**
-         * String
-         * */
-        public String set(String key , String value){
-
-
-            return getJedis().set(buildKey(key).getBytes() , value.getBytes());
-        }
-
-
-
-        public String get(String key){
-            return getJedis().get(buildKey(key));
-        }
-
-
-        /**
-         * hash
-         * */
-        public String hget(String hkey , String key){
-            return getJedis().hget(buildKey(hkey) , key);
-        }
-
-        public Long hset(String hkey ,String key , String value ){
-
-            return getJedis().hset(buildKey(hkey) , key , value);
-        }
-
-
-
-
 
     }
 
