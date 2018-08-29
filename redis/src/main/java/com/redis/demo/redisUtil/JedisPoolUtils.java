@@ -3,8 +3,6 @@ package com.redis.demo.redisUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.stereotype.Repository;
@@ -52,6 +50,7 @@ import redis.clients.jedis.JedisPoolConfig;
          */
         public static Jedis getJedis(){
             Jedis jedis = pool.getResource();
+            jedis.objectEncoding("utf-8");
           //  jedis.auth("redis123");
             return jedis;
         }
@@ -75,181 +74,34 @@ import redis.clients.jedis.JedisPoolConfig;
             }
             return true;
         }
-        /**
-         * 向缓存中设置对象
-         *
-         * @param key
-         * @param param
-         */
-        public<T> void setString(String key, String param) {
-
-            String bKey = buildKey(key);
-
-            try{
-
-                getJedis().set(bKey.getBytes(),SerializeUtil.serialize(param));
-
-            }catch (Exception e) {
-            }
-        }
-        /**
-         * 获取String值
-         *
-         * @param key
-         * @return value
-         */
-        public String getString(String key) {
-
-            String bKey = buildKey(key);
-
-            if(getJedis() == null || !getJedis().exists(bKey)) {
-
-                return null;
-
-            }
-
-            return getJedis().get(bKey);
-
-        }
-        /**
-         * 向缓存中设置对象
-         *
-         * @param key
-         * @param bean
-         */
-        public<T> void setBean(String key, Object bean) {
-
-            String bKey = buildKey(key);
-
-            try{
-
-                getJedis().set(bKey.getBytes(),SerializeUtil.serialize(bean));
-
-            }catch (Exception e) {
-            }
-
-        }
-        /**
-         * 根据key 获取对象
-         *
-         * @param key
-         * @return
-         */
-        @SuppressWarnings("unchecked")
-        public<T> T getBean(String key) {
-
-            String bKey = buildKey(key);
-
-            if(getJedis() == null || !getJedis().exists(bKey.getBytes())) {
-
-                return null;
-
-            }
-
-            byte[]in = getJedis().get(bKey.getBytes());
-
-            T bean = (T) SerializeUtil.unserialize(in);
-
-            return bean;
-
-
-
-
-
-        }
-        /**
-         * 设置 list
-         *
-         * @param <T>
-         * @param key
-         * @param list
-         */
-
-        public<T> void setList(String key, List<T> list) {
-
-            String bKey = buildKey(key);
-
-            try{
-
-                getJedis().set(bKey.getBytes(),SerializeUtil.serialize(list));
-
-            }catch (Exception e) {
-            }
-
-        }
 
         /**
-         * 获取list
-         *
-         * @param <T>
-         * @param key
-         * @return list
-         */
+         * String
+         * */
+        public String set(String key , String value){
 
-        @SuppressWarnings("unchecked")
-        public<T> List<T> getList(String key) {
 
-            System.out.println(key);
-            String bKey = buildKey(key);
-
-            System.out.println(bKey);
-            if(getJedis() == null || !getJedis().exists(bKey.getBytes())) {
-
-                return null;
-
-            }
-
-            byte[]in = getJedis().get(bKey.getBytes());
-
-            List<T>list = (List<T>) SerializeUtil.unserialize(in);
-
-            return list;
-
+            return getJedis().set(buildKey(key).getBytes() , value.getBytes());
         }
+
+
+
+        public String get(String key){
+            return getJedis().get(buildKey(key));
+        }
+
+
         /**
-         * 设置 map
-         * @param key
-         * @param map
-         */
-
-        public<T> void setMap(String key, Map<String, T> map) {
-
-            String bKey = buildKey(key);
-
-            try{
-
-                getJedis().set(bKey.getBytes(),SerializeUtil.serialize(map));
-
-            }catch (Exception e) {
-            }
-
-        }
-        /**
-         * 获取list
-         * @param <T>
-         * @param key
-         * @return list
-         */
-
-        @SuppressWarnings("unchecked")
-        public<T> Map<String, T> getMap(String key) {
-
-            String bKey = buildKey(key);
-
-            if(getJedis() == null || !getJedis().exists(bKey.getBytes())) {
-
-                return null;
-
-            }
-
-            byte[]in = getJedis().get(bKey.getBytes());
-
-            Map<String,T> map = (Map<String, T>) SerializeUtil.unserialize(in);
-
-            return map;
-
+         * hash
+         * */
+        public String hget(String hkey , String key){
+            return getJedis().hget(buildKey(hkey) , key);
         }
 
+        public Long hset(String hkey ,String key , String value ){
+
+            return getJedis().hset(buildKey(hkey) , key , value);
+        }
 
 
 

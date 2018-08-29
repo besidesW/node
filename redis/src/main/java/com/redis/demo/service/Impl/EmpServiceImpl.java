@@ -22,20 +22,6 @@ public class EmpServiceImpl implements EmpService {
     @Override
     public List<Employee> allEmps() {
 
-        Jedis jedis =  JedisPoolUtils.getJedis();
-
-        boolean flag = jedisPoolUtils.exist("emps");
-        System.out.println(flag);
-        List<Employee> es =null;
-        if(flag == true){
-            System.out.println("进入");
-            es = jedisPoolUtils.getList("emps");
-            System.out.println("返回");
-            return es;
-        }
-        List<Employee> emps = empMapper.allEmps();
-
-       jedisPoolUtils.setList("emps" , emps);
-        return emps;
+        return null;
     }
 }
