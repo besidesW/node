@@ -26,7 +26,12 @@ public class Empcontroller {
 
        String emps = empService.allEmps();
 
-        JSONArray j = JSONArray.fromObject(emps);
+       //把emps转换为json格式
+       JSONArray j = JSONArray.fromObject(emps);
+//
+//        for (int i = 0; i <j.size() ; i++) {
+//            System.out.println(j.get(i));
+//        }
 
         request.setAttribute("emps" ,j);
         return "index";

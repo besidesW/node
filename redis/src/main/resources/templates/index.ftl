@@ -7,7 +7,11 @@
 <body>
 <#assign json = emps />
 <#list json as emp>
-    ${emp.ename}
+   姓名： ${emp.ename}
+<br/>
+生日：
+${emp.birthday?datetime}
+
 </#list>
 
 </body>

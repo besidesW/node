@@ -22,21 +22,33 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     private Jedis jedis;
 
+    /**
+     * redis 中读取的数据都是string 类型的，所以直接返回string类的数据
+     * */
     @Override
     public String allEmps() {
 
+        //判断是否redis 中存在 emps
         boolean flag = jedis.exists("emps");
+        //如果存在则直接返回string
         if(flag == true ){
-
-            System.out.println("service");
             String emp = jedis.hget("emps" , "emps"+1);
            // emp.split(",");
-
            return emp;
         }
+        //不存在则去数据库中读取
         List<Employee> emps = empMapper.allEmps();
+        //遍历emps 设置时间格式，否则json自带的时间格式需要序列化操作
+        for (Employee emp : emps ) {
+            emp.setBirthday(emp.getBirth().toLocaleString());
+           // System.out.println(emp.getBirthday());
+        }
+
         JSONArray jsonList = JSONArray.fromObject(emps);
+        //把读取的数据保存在redis 中，以便下次直接调用，而非再次调用数据库
         jedis.hset("emps" , "emps"+1 , jsonList.toString());
+
+
 
         return jsonList.toString();
     }
