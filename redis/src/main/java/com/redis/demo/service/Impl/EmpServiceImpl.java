@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +23,21 @@ public class EmpServiceImpl implements EmpService {
     @Autowired
     private Jedis jedis;
 
+
+    /**
+     * 路径
+     * */
+    @Override
+    public String basePath(){
+        return jedis.get("basePath");
+    }
+
     /**
      * redis 中读取的数据都是string 类型的，所以直接返回string类的数据
      * */
     @Override
     public String allEmps() {
+
 
         //判断是否redis 中存在 emps
         boolean flag = jedis.exists("emps");
@@ -47,9 +58,6 @@ public class EmpServiceImpl implements EmpService {
         JSONArray jsonList = JSONArray.fromObject(emps);
         //把读取的数据保存在redis 中，以便下次直接调用，而非再次调用数据库
         jedis.hset("emps" , "emps"+1 , jsonList.toString());
-
-
-
         return jsonList.toString();
     }
 }

@@ -8,4 +8,6 @@ public interface EmpService {
 
     public String allEmps();
 
+    public String basePath();
+
 }

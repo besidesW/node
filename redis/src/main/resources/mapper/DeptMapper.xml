@@ -12,6 +12,9 @@
         select  * from dept where deptid = #{deptid}
     </select>
 
+    <select id="allDepts" resultMap="DeptMap" >
+        select dname , deptid from dept
+    </select>
 
 
 </mapper>
