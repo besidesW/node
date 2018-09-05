@@ -87,8 +87,20 @@ public class DemoApplicationTests {
             jedis.set("test" , "就阿卡");
             String str = jedis.get("test");
             System.out.println(str);
-
     }
+
+/***
+ * 连接 Linux 下的redis
+ * */
+    @Test
+    public void testLinuxRedis(){
+
+        jedis.set("test7" , "j就将计就计");
+        String str = jedis.get("test7");
+        System.out.println(str);
+    }
+
+
 
         @Test
     public void contextLoads() {

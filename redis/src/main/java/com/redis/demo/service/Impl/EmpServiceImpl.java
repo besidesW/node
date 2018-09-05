@@ -24,12 +24,22 @@ public class EmpServiceImpl implements EmpService {
     private Jedis jedis;
 
 
-    /**
-     * 路径
-     * */
+
     @Override
-    public String basePath(){
-        return jedis.get("basePath");
+    public boolean isAddSuccess(Employee emp) {
+
+        boolean flag = false;
+
+        int i = empMapper.insertIntoEmp(emp);
+        if(i>0){
+            flag = true;
+        }
+        boolean flagEmps = jedis.exists("emps");
+        if(flagEmps == true){
+            jedis.del("emps");
+        }
+
+        return flag;
     }
 
     /**

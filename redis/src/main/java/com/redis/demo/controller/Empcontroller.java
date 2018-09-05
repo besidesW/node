@@ -15,6 +15,21 @@ public class Empcontroller {
     @Autowired
     private EmpService empService;
 
+    /**
+     * 绝对路径
+     * */
+    public String basePath(HttpServletRequest request){
+        String scheme = request.getScheme();
+        String serverName = request.getServerName();
+        String path = request.getContextPath();
+        int port =request.getServerPort();
+
+        String basePath =  scheme + "://" + serverName + ":" + port + path;
+
+        return basePath;
+    }
+
+
 
     @RequestMapping("list")
     public String allemps(HttpServletRequest request){
@@ -28,7 +43,7 @@ public class Empcontroller {
 //            System.out.println(j.get(i));
 //        }
 
-        request.setAttribute("basePath" , empService.basePath());
+        request.setAttribute("basePath" , basePath(request));
         request.setAttribute("emps" ,j);
         return "index";
     }
@@ -36,8 +51,13 @@ public class Empcontroller {
     @RequestMapping("add")
     public String toIndex2(Employee emp , HttpServletRequest request){
 
-        System.out.println(emp.getBirthday()+","+emp.getEname()+","+emp.getDept().getDname());
+        System.out.println(emp.getBirthday());
 
+        boolean flag = empService.isAddSuccess(emp);
+
+        if(flag ==false){
+            return "";
+        }
 
         return "redirect:/emp/list";
     }

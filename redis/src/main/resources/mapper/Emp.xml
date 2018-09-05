@@ -14,4 +14,10 @@
         select * from employee e, dept d where e.deptid = d.deptid
     </select>
 
+    <!--连表添加-->
+    <insert id="insertIntoEmp" parameterType="Employee">
+        insert into employee values (null , #{ename} , #{birthday} , #{dept.deptId} )
+    </insert>
+
+
 </mapper>

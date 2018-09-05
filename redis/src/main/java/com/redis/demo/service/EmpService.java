@@ -8,6 +8,7 @@ public interface EmpService {
 
     public String allEmps();
 
-    public String basePath();
+
+    public boolean isAddSuccess(Employee emp);
 
 }

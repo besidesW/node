@@ -8,7 +8,7 @@ import java.util.List;
 public interface EmpMapper {
 
     public List<Employee> allEmps();
-
+    public int insertIntoEmp(Employee emp);
 
 
 

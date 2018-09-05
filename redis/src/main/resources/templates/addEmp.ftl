@@ -20,7 +20,7 @@
            生日：
         </td>
         <td>
-            <input name="birthday" type="text" />
+            <input name="birthday" type="date" />
         </td>
     </tr>
     <tr>
@@ -28,7 +28,7 @@
             部门：
         </td>
         <td>
-            <select name="emp.dept" >
+            <select name="dept.deptId" >
                 <#list dept as d>
                     <option  value="${d.deptId}">${d.dname}</option>
                 </#list>
